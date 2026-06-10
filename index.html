@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#05070b" />
+    <title>Ruta Rival</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css?v=8" />
+  </head>
+  <body>
+    <main id="appShell">
+      <div id="map" aria-label="Mapa real con recorridos"></div>
+      <div class="mapFx" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <button id="backButton" class="iconButton hidden" type="button" aria-label="Volver">
+          <span aria-hidden="true">&lsaquo;</span>
+        </button>
+        <div class="brand">
+          <span class="brandMark" aria-hidden="true"></span>
+          <div>
+            <strong>Ruta Rival</strong>
+            <small id="statusLine" data-i18n="status.searching">Buscando ubicacion...</small>
+          </div>
+        </div>
+        <select id="languageSelect" class="languageSelect" aria-label="Idioma">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+          <option value="fr">FR</option>
+          <option value="de">DE</option>
+        </select>
+        <button id="profileButton" class="pillButton" type="button" data-i18n="profile.button">Perfil</button>
+      </header>
+
+      <section id="permissionCard" class="floatingPanel">
+        <strong data-i18n="permission.title">Activa tu ubicacion</strong>
+        <p data-i18n="permission.body">La app necesita GPS para grabar recorridos y cronometrar intentos automaticamente.</p>
+        <button id="enableLocationButton" class="primaryButton" type="button" data-i18n="permission.button">Permitir ubicacion</button>
+      </section>
+
+      <section class="hud">
+        <button id="startRecordButton" class="primaryButton" type="button" data-i18n="record.start">Iniciar recorrido</button>
+        <button id="stopRecordButton" class="dangerButton hidden" type="button" data-i18n="record.stop">Finalizar recorrido</button>
+        <button id="centerButton" class="toolButton" type="button" aria-label="Centrar mapa">&#9678;</button>
+      </section>
+
+      <section id="timerPanel" class="timerPanel hidden" aria-live="polite">
+        <span id="timerMode" data-i18n="timer.waiting">Esperando salida</span>
+        <strong id="timerValue">00:00.0</strong>
+        <small id="timerHint" data-i18n="timer.approachStart">Acercate al punto inicial del recorrido.</small>
+      </section>
+
+      <aside id="sheet" class="sheet hidden" aria-label="Panel de recorridos">
+        <div class="sheetGrip"></div>
+        <div id="sheetContent"></div>
+      </aside>
+    </main>
+
+    <dialog id="profileDialog" class="profileDialog">
+      <form method="dialog" id="profileForm">
+        <h1 data-i18n="profile.title">Tu perfil</h1>
+        <label>
+          <span data-i18n="profile.nickname">Nickname</span>
+          <input id="nicknameInput" autocomplete="nickname" maxlength="24" required />
+        </label>
+        <label>
+          <span data-i18n="profile.car">Modelo de coche</span>
+          <input id="carInput" autocomplete="off" maxlength="40" required />
+        </label>
+        <p id="profileError" class="formError"></p>
+        <button class="primaryButton" value="save" type="submit" data-i18n="profile.save">Guardar perfil</button>
+      </form>
+    </dialog>
+
+    <dialog id="routeDialog" class="routeDialog">
+      <form method="dialog" id="routeForm">
+        <h1 data-i18n="routeSave.title">Guardar recorrido</h1>
+        <p id="routeNameHint" class="dialogHint" data-i18n="routeSave.preparing">Preparando nombre sugerido...</p>
+        <label>
+          <span data-i18n="routeSave.nameLabel">Nombre de la ruta</span>
+          <input id="routeNameInput" autocomplete="off" maxlength="48" required />
+        </label>
+        <div class="dialogStats">
+          <span id="routeDistancePreview">--</span>
+          <span id="routeTimePreview">--</span>
+        </div>
+        <div class="dialogActions">
+          <button id="discardRouteButton" class="textButton" type="button" data-i18n="routeSave.discard">Descartar</button>
+          <button class="primaryButton" value="save" type="submit" data-i18n="routeSave.save">Guardar ruta</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="routeListTemplate">
+      <div class="sheetHeader">
+        <button class="textButton" data-action="close-sheet" type="button" data-i18n="nav.backMap">Volver al mapa</button>
+        <h2 data-i18n="routes.nearby">Recorridos cercanos</h2>
+      </div>
+      <div class="routeList"></div>
+    </template>
+
+    <template id="routeDetailTemplate">
+      <div class="sheetHeader">
+        <button class="textButton" data-action="back-to-list" type="button" data-i18n="nav.backList">Volver a la lista</button>
+        <h2></h2>
+      </div>
+      <div class="routeStats"></div>
+      <div class="sheetActions">
+        <button class="primaryButton" data-action="navigate-start" type="button" data-i18n="route.guide">Guiarme al inicio</button>
+        <button class="accentButton" data-action="arm-attempt" type="button" data-i18n="route.challenge">Intentar batir</button>
+      </div>
+      <div class="reviews"></div>
+    </template>
+
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script src="./app.js?v=8"></script>
+  </body>
+</html>

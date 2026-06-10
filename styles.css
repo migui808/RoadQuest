@@ -1,0 +1,677 @@
+:root {
+  --bg: #05070b;
+  --panel: rgba(5, 8, 13, 0.82);
+  --panel-solid: #080c13;
+  --ink: #f4f8ff;
+  --muted: #8fa1b8;
+  --line: rgba(114, 244, 255, 0.2);
+  --cyan: #62f7ff;
+  --acid: #b9ff35;
+  --pink: #ff3df2;
+  --amber: #ffcf4d;
+  --red: #ff3b5f;
+  --blue: #5796ff;
+  --shadow: 0 18px 52px rgba(0, 0, 0, 0.48);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#appShell,
+#map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Barlow Condensed", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  min-height: 44px;
+  border: 0;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#appShell {
+  position: relative;
+  isolation: isolate;
+}
+
+#map {
+  background: #0b111a;
+}
+
+.mapFx {
+  position: absolute;
+  inset: 0;
+  z-index: 470;
+  pointer-events: none;
+  opacity: 0.72;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(98, 247, 255, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(5, 7, 11, 0.04) 0%, rgba(5, 7, 11, 0.06) 58%, rgba(5, 7, 11, 0.34) 100%);
+  mix-blend-mode: normal;
+}
+
+.maplibregl-control-container {
+  display: none;
+}
+
+.maplibregl-canvas {
+  filter: saturate(1.45) contrast(1.12) brightness(1.16);
+}
+
+.mapMarker {
+  filter: drop-shadow(0 0 12px rgba(98, 247, 255, 0.55));
+}
+
+.topbar {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  left: 12px;
+  right: 12px;
+  z-index: 700;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.topbar > * {
+  pointer-events: auto;
+}
+
+.brand,
+.floatingPanel,
+.timerPanel,
+.sheet,
+.profileDialog,
+.routeDialog,
+.iconButton,
+.pillButton,
+.languageSelect,
+.toolButton,
+.textButton {
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, rgba(98, 247, 255, 0.11), transparent 34%),
+    var(--panel);
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 11px;
+  border-radius: 8px;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brand strong {
+  font-size: 18px;
+  line-height: 0.95;
+  font-weight: 800;
+}
+
+.brand small {
+  max-width: 52vw;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.brandMark,
+.flagMarker {
+  width: 25px;
+  height: 25px;
+  display: block;
+  flex: 0 0 auto;
+  border-radius: 3px;
+  background:
+    linear-gradient(90deg, #0b0f16 0 14%, transparent 14%),
+    conic-gradient(#f7fbff 0 25%, #05070b 0 50%, #f7fbff 0 75%, #05070b 0);
+  background-size: 100% 100%, 12px 12px;
+  box-shadow: 0 0 0 2px rgba(98, 247, 255, 0.38), 0 0 18px rgba(98, 247, 255, 0.55);
+  transform: skewX(-8deg);
+}
+
+.flagBubble {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(98, 247, 255, 0.78);
+  border-radius: 8px;
+  background: rgba(5, 8, 13, 0.88);
+  box-shadow: 0 0 0 2px rgba(185, 255, 53, 0.16), 0 0 28px rgba(98, 247, 255, 0.62);
+  transform: rotate(45deg);
+}
+
+.flagBubble i,
+.flagBubble span {
+  transform: rotate(-45deg);
+}
+
+.flagBubble span {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  min-width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--acid);
+  color: #071007;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 0 18px rgba(185, 255, 53, 0.65);
+}
+
+.iconButton,
+.pillButton,
+.toolButton,
+.textButton,
+.primaryButton,
+.accentButton,
+.dangerButton {
+  border-radius: 8px;
+  color: var(--ink);
+  transition: transform 140ms ease, filter 140ms ease, background 140ms ease;
+}
+
+.iconButton:active,
+.pillButton:active,
+.toolButton:active,
+.textButton:active,
+.primaryButton:active,
+.accentButton:active,
+.dangerButton:active {
+  transform: translateY(1px);
+}
+
+.iconButton {
+  width: 44px;
+  color: var(--cyan);
+  font-size: 33px;
+  line-height: 1;
+}
+
+.pillButton,
+.toolButton {
+  font-weight: 800;
+}
+
+.pillButton {
+  padding: 0 14px;
+  color: var(--cyan);
+}
+
+.languageSelect {
+  min-height: 44px;
+  width: 58px;
+  border-radius: 8px;
+  padding: 0 7px;
+  color: var(--cyan);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.toolButton {
+  width: 50px;
+  color: var(--acid);
+  font-size: 23px;
+}
+
+.textButton {
+  min-height: 38px;
+  padding: 0 11px;
+  color: var(--cyan);
+  background: rgba(98, 247, 255, 0.08);
+  box-shadow: none;
+}
+
+.primaryButton,
+.accentButton,
+.dangerButton {
+  padding: 0 15px;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.primaryButton {
+  color: #061107;
+  background: linear-gradient(135deg, #e6ff73, var(--acid));
+  box-shadow: 0 0 26px rgba(185, 255, 53, 0.34);
+}
+
+.accentButton {
+  color: #061018;
+  background: linear-gradient(135deg, #7ffbff, var(--blue));
+  box-shadow: 0 0 26px rgba(98, 247, 255, 0.34);
+}
+
+.dangerButton {
+  color: #1c0409;
+  background: linear-gradient(135deg, #ff8a9e, var(--red));
+  box-shadow: 0 0 26px rgba(255, 59, 95, 0.36);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.floatingPanel {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 86px;
+  z-index: 690;
+  max-width: 430px;
+  padding: 14px;
+  border-radius: 8px;
+}
+
+.floatingPanel strong {
+  color: var(--cyan);
+  font-size: 18px;
+}
+
+.floatingPanel p {
+  margin: 6px 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.25;
+  text-transform: none;
+}
+
+.hud {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 680;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.hud button {
+  pointer-events: auto;
+}
+
+.hud .primaryButton,
+.hud .dangerButton {
+  flex: 1 1 auto;
+}
+
+.timerPanel {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 84px;
+  z-index: 710;
+  display: grid;
+  gap: 4px;
+  max-width: 430px;
+  padding: 12px 14px;
+  border-color: rgba(185, 255, 53, 0.5);
+  border-radius: 8px;
+}
+
+.timerPanel span,
+.timerPanel small {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.timerPanel strong {
+  color: var(--acid);
+  font-size: 42px;
+  line-height: 0.9;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 20px rgba(185, 255, 53, 0.54);
+}
+
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 720;
+  max-height: min(56vh, 520px);
+  overflow: auto;
+  padding: 8px 12px max(16px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  border-radius: 8px 8px 0 0;
+  background:
+    linear-gradient(135deg, rgba(255, 61, 242, 0.08), transparent 30%),
+    var(--panel-solid);
+}
+
+.sheetGrip {
+  width: 48px;
+  height: 4px;
+  margin: 0 auto 10px;
+  border-radius: 99px;
+  background: var(--cyan);
+  box-shadow: 0 0 15px rgba(98, 247, 255, 0.65);
+}
+
+.sheetHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sheetHeader h2 {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.routeList {
+  display: grid;
+  gap: 8px;
+}
+
+.routeCard {
+  width: 100%;
+  min-height: 88px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(98, 247, 255, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(98, 247, 255, 0.1), rgba(255, 255, 255, 0.035));
+  color: var(--ink);
+  text-align: left;
+}
+
+.routeCard strong,
+.routeCard small {
+  display: block;
+}
+
+.routeCard strong {
+  margin-bottom: 7px;
+  color: var(--cyan);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.routeCard small,
+.stat small,
+.reviewItem small {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.routeBadge {
+  min-width: 70px;
+  padding: 8px;
+  border: 1px solid rgba(185, 255, 53, 0.3);
+  border-radius: 8px;
+  background: rgba(185, 255, 53, 0.12);
+  color: var(--acid);
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 14px rgba(185, 255, 53, 0.45);
+}
+
+.routeStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.stat {
+  min-height: 72px;
+  padding: 11px;
+  border: 1px solid rgba(98, 247, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.stat strong,
+.stat small {
+  display: block;
+}
+
+.stat strong {
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.sheetActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.reviews {
+  display: grid;
+  gap: 10px;
+}
+
+.reviews > strong {
+  color: var(--cyan);
+  font-size: 18px;
+}
+
+.stars {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.starButton {
+  min-height: 38px;
+  border-radius: 8px;
+  background: rgba(255, 207, 77, 0.12);
+  color: var(--amber);
+  font-weight: 800;
+}
+
+.reviewBox {
+  display: grid;
+  gap: 8px;
+}
+
+.reviewBox textarea {
+  min-height: 76px;
+  resize: vertical;
+  border: 1px solid rgba(98, 247, 255, 0.18);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+  text-transform: none;
+}
+
+.reviewItem {
+  padding: 10px;
+  border: 1px solid rgba(98, 247, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  text-transform: none;
+}
+
+.profileDialog,
+.routeDialog {
+  width: min(420px, calc(100vw - 24px));
+  border-radius: 8px;
+  padding: 0;
+  color: var(--ink);
+}
+
+.profileDialog::backdrop,
+.routeDialog::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.profileDialog form,
+.routeDialog form {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.profileDialog h1,
+.routeDialog h1 {
+  margin: 0 0 4px;
+  color: var(--cyan);
+  font-size: 25px;
+}
+
+.profileDialog label,
+.routeDialog label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.profileDialog input,
+.routeDialog input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(98, 247, 255, 0.22);
+  border-radius: 8px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--ink);
+  text-transform: none;
+}
+
+.dialogHint {
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  text-transform: none;
+}
+
+.dialogStats,
+.dialogActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.dialogStats span {
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(98, 247, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--acid);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.formError {
+  min-height: 18px;
+  margin: 0;
+  color: var(--red);
+  font-size: 14px;
+  text-transform: none;
+}
+
+.userDot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--acid);
+  border: 3px solid #05070b;
+  box-shadow: 0 0 0 6px rgba(185, 255, 53, 0.22), 0 0 22px rgba(185, 255, 53, 0.8);
+}
+
+.checkpoint {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #05070b;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.14), 0 0 24px currentColor;
+}
+
+.checkpoint.start {
+  color: var(--acid);
+  background: var(--acid);
+}
+
+.checkpoint.finish {
+  color: var(--red);
+  background: var(--red);
+}
+
+@media (min-width: 760px) {
+  .sheet {
+    left: auto;
+    right: 14px;
+    bottom: 14px;
+    width: 430px;
+    max-height: calc(100vh - 140px);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding-bottom: 12px;
+  }
+
+  .hud {
+    max-width: 430px;
+  }
+
+  .floatingPanel,
+  .timerPanel {
+    left: 14px;
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Ruta Rival",
+  "short_name": "Ruta Rival",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#05070b",
+  "theme_color": "#05070b",
+  "description": "Mapa real con recorridos, rankings y cronometraje automatico por GPS.",
+  "icons": []
+}
